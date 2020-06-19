@@ -132,9 +132,6 @@ import { defineComponent, computed, ref, onMounted } from '@vue/composition-api'
 import UserModel, { UserRole, IUserFetchParams } from '../../../models/User';
 
 export default defineComponent({
-  layout: 'aside',
-  middleware: ['is-admin'],
-
   setup (props: any, { root }) {
     const fields = ref([
       {

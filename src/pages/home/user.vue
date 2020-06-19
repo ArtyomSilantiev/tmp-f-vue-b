@@ -96,9 +96,6 @@ import UserSettingsChangeForm from '../../components/forms/UserSettingsChangeFor
 import UserPasswordChangeForm from '../../components/forms/UserPasswordChangeForm.vue';
 
 export default defineComponent({
-  layout: 'aside',
-  middleware: ['is-auth'],
-
   components: {
     UserAvatarUploadForm,
     UserSettingsChangeForm,

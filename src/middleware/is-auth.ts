@@ -1,7 +1,6 @@
-import { Route } from 'vue-router';
-import store from '../store';
+import MiddlewareWrapper from './MiddlewareWrapper';
 
-export default async (to: Route, from: Route, next: Function) => {
+export default new MiddlewareWrapper(function ({ next, store }) {
   const user = store.getters['auth/user'];
 
   if (!user) {
@@ -9,4 +8,4 @@ export default async (to: Route, from: Route, next: Function) => {
   } else {
     next();
   }
-}
+});

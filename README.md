@@ -18,14 +18,12 @@ cd npm i && npm run build
 # Frontend watch
 ```sh
 cd <tmp-f-vue-root>
-cd frontend
 npm run serve
 ```
 
 # Frontend build
 ```sh
 cd <tmp-f-vue-root>
-cd frontend
 npm run build
 ```
 

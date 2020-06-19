@@ -47,9 +47,6 @@ import { defineComponent, computed, ref, onMounted } from '@vue/composition-api'
 import SettingModel from '../../../models/Setting';
 
 export default defineComponent({
-  layout: 'aside',
-  middleware: ['is-admin'],
-
   setup (props: any, { root }) {
     const tableFields = ref([
       {

@@ -89,8 +89,6 @@ import axios from 'axios';
 import SettingsFrontComposition from '../../compositions/SettingsFront';
 
 export default defineComponent({
-  layout: 'blank',
-
   setup (props: any, { root }) {
     const form = ref(UserModel.formLogin());
 

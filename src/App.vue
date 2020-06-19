@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="page" mode="out-in">
-      <component :is="layout" v-if="layout" />
+      <router-view :key="$route.path" />
     </transition>
   </div>
 </template>
@@ -9,7 +9,6 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted, watch } from '@vue/composition-api';
 import NavbarComponent from './components/Navbar.vue';
-import { layouts } from './lib/layouts';
 
 export default defineComponent({
   components: {
@@ -17,20 +16,9 @@ export default defineComponent({
   },
 
   setup (props: any, { root }) {
-    const layout = ref(null);
-    const defaultLayout = 'default';
-
     onMounted(async () => {
       await root.$store.dispatch('setting/fetchFrontSettings');
     });
-
-    function setLayout (argLayout?: string) {
-      if (!argLayout || !layouts[argLayout]) {
-        argLayout = defaultLayout;
-      }
-
-      layout.value = layouts[argLayout];
-    }
 
     watch(
       () => root.$route,
@@ -51,11 +39,6 @@ export default defineComponent({
         }
       }
     );
-
-    return {
-      layout,
-      setLayout
-    };
   }
 });
 </script>

@@ -81,9 +81,6 @@ import SettingModel from '../../../models/Setting';
 import Form from '../../../lib/form';
 
 export default defineComponent({
-  layout: 'aside',
-  middleware: ['is-admin'],
-
   setup (props: any, { root }) {
     const settingName = ref(root.$route.params['name']);
     const settingData = ref<SettingModel>(new SettingModel());
