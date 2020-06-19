@@ -1,0 +1,8 @@
+.breadcrumb {
+    justify-content: flex-end;
+
+    @media (max-width: 575px) {
+        justify-content: flex-start;
+        padding: 0;
+    }
+}

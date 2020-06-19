@@ -1,0 +1,41 @@
+/**
+* Bootstrap
+*/
+@import "./bootstrap-variables";
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../../../node_modules/bootstrap-vue/src/index.scss";
+@import "./bootstrap-changes";
+
+@import "../../../node_modules/sweetalert2/src/sweetalert2.scss";
+
+.site-form {
+    max-width: 400px;
+    margin: 0 auto;
+
+    .input-group ~ .input-group {
+        margin-top: 20px;
+    }
+
+    .field-error {
+        color: crimson;
+    }
+}
+
+.grecaptcha-badge {
+    display: none;
+}
+
+.img-circle {
+    border-radius: 50%;
+}
+
+.grid-col-right-md {
+    margin-left: auto;
+    @media (max-width: 767px) {
+        margin-left: initial;
+    }
+}
+
+.no-border-radius {
+    border-radius: initial;
+}
