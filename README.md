@@ -28,7 +28,9 @@ npm run build
 ```
 
 # Backend repo
-git@github.com:ArtyomSilantiev/tmp-b-ts.git
+```sh
+git clone git@github.com:ArtyomSilantiev/tmp-b-ts.git
+```
 
 # vue-app
 ## Project setup
