@@ -22,6 +22,7 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "no-empty": "off"
     }
 };

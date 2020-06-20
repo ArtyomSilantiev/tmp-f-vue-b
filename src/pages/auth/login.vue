@@ -102,6 +102,7 @@ export default defineComponent({
         root.$store.dispatch('auth/saveToken', {
           token: data.token
         });
+        await root.$store.dispatch('auth/fetchUser');
         root.$router.push({ name: 'main' });
       } catch (err) { }
     }

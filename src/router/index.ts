@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter, { Route } from "vue-router";
 import { routes } from "./routes";
 import store from "@/store";
-import MiddlewareWrapper from '@/middleware/MiddlewareWrapper';
+import MiddlewareWrapper, { IMiddlewareContext } from '@/middleware/MiddlewareWrapper';
 
 Vue.use(VueRouter);
 
@@ -30,10 +30,13 @@ router.beforeEach(async (to: Route, from: Route, next: Function) => {
 });
 
 function middlewarePipeline(
-  context: any,
+  context: IMiddlewareContext,
   middleware: MiddlewareWrapper[],
   index: number
 ) {
+  if (!middleware || !middleware[index]) {
+    return context.next;
+  }
   const nextMiddleware = middleware[index].middleware;
   if (!nextMiddleware) {
     return context.next;

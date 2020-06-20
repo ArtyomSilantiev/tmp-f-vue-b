@@ -6,7 +6,9 @@ import i18n from './lib/i18n';
 import VueCompositionApi from '@vue/composition-api';
 import BootstrapVue from 'bootstrap-vue'
 import './assets/styles/main.scss';
-import './lib';
+import './lib/axios';
+import './lib/fontawesome';
+import 'bootstrap';
 import ToggleButton from 'vue-js-toggle-button'
 import moment from 'moment';
 
@@ -21,4 +23,12 @@ new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
+
+(async () => {
+  if (!store.getters['auth/check'] && store.getters['auth/token']) {
+    try {
+      await store.dispatch('auth/fetchUser')
+    } catch (e) {}
+  }
+})();

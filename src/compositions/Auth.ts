@@ -5,9 +5,8 @@ import UserModel, { UserRole } from '../models/User';
 
 export default function AuthComposition () {
   async function logout () {
-    router.replace({ name: 'blank' });
     await store.dispatch('auth/logout');
-    router.replace({ name: 'login' });
+    router.push({ name: 'login' });
   }
 
   const isAuth = computed(() => {

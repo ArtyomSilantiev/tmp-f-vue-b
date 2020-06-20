@@ -2,14 +2,14 @@ import { Route } from 'vue-router';
 import { Store } from 'vuex';
 import { RootState } from '@/store/types';
 
-interface IMiddlewareContext {
+export interface IMiddlewareContext {
   to: Route,
   from: Route,
   next: Function,
   store: Store<RootState>
 }
 
-interface IMiddleware {
+export interface IMiddleware {
     (context: IMiddlewareContext): void;
 }
 

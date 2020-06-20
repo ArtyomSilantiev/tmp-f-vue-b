@@ -17,7 +17,7 @@ const actions: ActionTree<AuthState, RootState> = {
   async fetchUser ({ commit }) {
     try {
       const { data } = await UserModel.getAuthInfo();
-      let user = data.user;
+      const user = data.user;
       commit('fetchSuccess', { user: user });
     } catch (e) {
       commit('fetchFailure')
@@ -29,8 +29,8 @@ const actions: ActionTree<AuthState, RootState> = {
   async logout ({ commit }) {
     try {
       await axios.post('/api/user/logout');
+      commit('logout');
     } catch (e) {}
-    commit('logout');
   }
 }
 
