@@ -2,11 +2,15 @@ import router from '../router';
 import { computed, ref, onMounted } from '@vue/composition-api';
 import store from '../store';
 import UserModel, { UserRole } from '../models/User';
+import axios from 'axios';
 
 export default function AuthComposition () {
   async function logout () {
-    await store.dispatch('auth/logout');
-    router.push({ name: 'login' });
+    try {
+      await axios.post('/api/user/logout');
+      store.dispatch('auth/logout');
+      router.push({ name: 'main' });
+    } catch (e) {}
   }
 
   const isAuth = computed(() => {

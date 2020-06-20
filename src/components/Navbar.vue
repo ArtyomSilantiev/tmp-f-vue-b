@@ -34,7 +34,7 @@
           </li>
 
           <li class="nav-item" v-if="isAuth">
-            <a href class="nav-link" @click="logout()">Выйти из системы</a>
+            <router-link class="nav-link" :to="{ name: 'logout' }">Выйти из системы</router-link>
           </li>
           <li class="nav-item" v-if="isAuth">
             <router-link

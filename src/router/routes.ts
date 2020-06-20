@@ -11,6 +11,8 @@ function layout (path: string) {
 }
 
 export const routes = [
+  { path: '/logout', name: 'logout', component: page('auth/logout') },
+
   {
     path: '/',
     component: layout('default.vue'),
