@@ -2,6 +2,7 @@ import { Module, ActionTree, MutationTree, GetterTree } from 'vuex';
 import { RootState } from '../types';
 import Cookies from 'js-cookie'
 import UserModel from '../../models/User';
+import axios from 'axios';
 
 export interface AuthState {
   user?: UserModel | null;
@@ -25,8 +26,11 @@ const actions: ActionTree<AuthState, RootState> = {
   updateUser ({ commit }, user) {
     commit('updateUser', user);
   },
-  logout ({ commit }) {
-    commit('logout');
+  async logout ({ commit }) {
+    try {
+      await axios.post('/api/user/logout');
+      commit('logout');
+    } catch (e) {}
   }
 }
 
