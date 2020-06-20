@@ -30,8 +30,8 @@ import UserModel from '../../models/User';
 
 export default defineComponent({
   setup (props, { root }) {
-    let avatarFile = ref<Blob>(new Blob());
-    let formUploadUserAvatar = ref(UserModel.formUploadUserAvatar());
+    const avatarFile = ref<Blob>(new Blob());
+    const formUploadUserAvatar = ref(UserModel.formUploadUserAvatar());
 
     async function updateAvatar () {
       if (avatarFile.value) {
@@ -39,7 +39,7 @@ export default defineComponent({
         try {
           const { data } = await formUploadUserAvatar.value.submit();
         } catch (error) {
-          throw error;
+          console.error(error);
         }
         root.$store.dispatch('auth/fetchUser');
         formUploadUserAvatar.value.statusText = 'Аватар изменён'
