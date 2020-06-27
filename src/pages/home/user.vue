@@ -94,6 +94,7 @@ import { BModal } from 'bootstrap-vue'
 import UserAvatarUploadForm from '../../components/forms/UserAvatarUploadForm.vue';
 import UserSettingsChangeForm from '../../components/forms/UserSettingsChangeForm.vue';
 import UserPasswordChangeForm from '../../components/forms/UserPasswordChangeForm.vue';
+import AuthStorage from '@/storages/Auth';
 
 export default defineComponent({
   components: {
@@ -104,15 +105,15 @@ export default defineComponent({
 
   setup (props: any, { root }) {
     let userId = root.$route.params['id'] || null;
-    let user = ref({} as UserModel);
-    let isOwner = ref(false);
-    let updateAvatarModalRef = ref<BModal>(new BModal());
-    let userSettingsChangeFormRef = ref<any>(null);
-    let userPasswordChangeFormRef = ref<any>(null);
+    const user = ref({} as UserModel);
+    const isOwner = ref(false);
+    const updateAvatarModalRef = ref<BModal>(new BModal());
+    const userSettingsChangeFormRef = ref<any>(null);
+    const userPasswordChangeFormRef = ref<any>(null);
 
     onMounted(async function () {
-      let selfUser = root.$store.getters['auth/user'] as UserModel;
-      if (!userId && selfUser.id) {
+      const selfUser = AuthStorage.getUser();
+      if (!userId && selfUser && selfUser.id) {
         userId = selfUser.id;
       }
       if (selfUser && selfUser.id === userId) {
@@ -122,7 +123,7 @@ export default defineComponent({
           updateAvatarModalRef.value.hide();
         }
       } else if (userId) {
-        let { data } = await UserModel.getById(userId);
+        const { data } = await UserModel.getById(userId);
         user.value = data;
         isOwner.value = false;
       }

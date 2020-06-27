@@ -91,6 +91,7 @@ import { defineComponent, computed, ref } from '@vue/composition-api';
 import UserModel from '../../models/User';
 import axios from 'axios';
 import SettingsFrontComposition from '../../compositions/SettingsFront';
+import AuthStorage from '@/storages/Auth';
 
 export default defineComponent({
   setup (props: any, { root }) {
@@ -99,10 +100,8 @@ export default defineComponent({
     async function login () {
       try {
         const { data } = await form.value.submit();
-        root.$store.dispatch('auth/saveToken', {
-          token: data.token
-        });
-        await root.$store.dispatch('auth/fetchUser');
+        AuthStorage.setToken(data.token);
+        await AuthStorage.fetchUser();
         root.$router.push({ name: 'main' });
       } catch (err) { }
     }

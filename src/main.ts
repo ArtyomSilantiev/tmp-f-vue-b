@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import store from './store';
 import i18n from './lib/i18n';
 import VueCompositionApi from '@vue/composition-api';
 import BootstrapVue from 'bootstrap-vue'
@@ -11,6 +10,9 @@ import './lib/fontawesome';
 import 'bootstrap';
 import ToggleButton from 'vue-js-toggle-button'
 import moment from 'moment';
+import AuthStorage from '@/storages/Auth';
+
+AuthStorage.init();
 
 Vue.config.productionTip = false;
 
@@ -21,14 +23,11 @@ Vue.prototype.moment = moment;
 new Vue({
   i18n,
   router,
-  store,
   render: h => h(App)
 }).$mount('#app');
 
 (async () => {
-  if (!store.getters['auth/check'] && store.getters['auth/token']) {
-    try {
-      await store.dispatch('auth/fetchUser')
-    } catch (e) {}
+  if (!AuthStorage.getUser() && AuthStorage.getToken()) {
+    await AuthStorage.fetchUser();
   }
 })();

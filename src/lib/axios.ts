@@ -1,11 +1,11 @@
 import axios from 'axios';
-import store from '../store';
 import router from '../router'
 import Swal, { SweetAlertOptions } from 'sweetalert2';
 import i18n from './i18n';
+import storages from '@/storages';
 
 axios.interceptors.request.use(request => {
-  const token = store.getters['auth/token'];
+  const token = storages.AuthStorage.getToken();
   if (token) {
     request.headers.common['Authorization'] = `Bearer ${token}`;
   }
@@ -25,7 +25,7 @@ axios.interceptors.response.use(response => response, error => {
       confirmButtonText: i18n.t('labels.ok'),
       cancelButtonText: i18n.t('labels.cancel')
     } as SweetAlertOptions);
-  } else if (status === 401 && store.getters['auth/check']) {
+  } else if (status === 401 && storages.AuthStorage.isAuthAndLoad()) {
     Swal.fire({
       icon: 'warning',
       title: i18n.t('labels.tokenExpiredAlertTitle'),
@@ -34,8 +34,7 @@ axios.interceptors.response.use(response => response, error => {
       confirmButtonText: i18n.t('labels.ok'),
       cancelButtonText: i18n.t('labels.cancel')
     } as SweetAlertOptions).then(() => {
-      store.commit('auth/LOGOUT');
-
+      storages.AuthStorage.logout();
       router.push({ name: 'login' });
     });
   }

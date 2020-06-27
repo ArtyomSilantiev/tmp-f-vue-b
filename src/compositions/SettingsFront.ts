@@ -1,9 +1,9 @@
 import { computed, ref, onMounted } from '@vue/composition-api';
-import store from '../store';
+import storages from '@/storages';
 
 export default function SettingsFrontComposition () {
   const userRegistrationDisabled = computed(() => {
-    return store.getters['setting/userRegistrationDisabled'];
+    return storages.SettingStorage.getUserRegistrationDisabled();
   });
 
   return {

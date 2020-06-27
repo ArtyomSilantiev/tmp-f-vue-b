@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter, { Route } from "vue-router";
 import { routes } from "./routes";
-import store from "@/store";
 import MiddlewareWrapper, { IMiddlewareContext } from '@/middleware/MiddlewareWrapper';
 
 Vue.use(VueRouter);
@@ -20,8 +19,7 @@ router.beforeEach(async (to: Route, from: Route, next: Function) => {
   const context = {
     to,
     from,
-    next,
-    store
+    next
   };
   return middleware[0].middleware({
     ...context,

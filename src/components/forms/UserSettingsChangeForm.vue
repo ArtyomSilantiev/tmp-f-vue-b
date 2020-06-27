@@ -55,21 +55,25 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from '@vue/composition-api';
 import UserModel from '../../models/User';
+import AuthStorage from '@/storages/Auth';
 
 export default defineComponent({
   setup (props, { root }) {
-    let form = ref(UserModel.formUserSettingsUpdate());
-    let isDone = ref(false);
-    let user = ref<UserModel>({});
+    const form = ref(UserModel.formUserSettingsUpdate());
+    const isDone = ref(false);
+    const user = ref<UserModel>({});
 
     onMounted(async () => {
-      user.value = root.$store.getters['auth/user'];
+      const _user = AuthStorage.getUser();
+      if (_user) {
+        user.value = _user;
+      }
     });
 
     async function updateSettings () {
       try {
         await form.value.submit();
-        await root.$store.dispatch('auth/fetchUser');
+        await AuthStorage.fetchUser();
         isDone.value = true;
       } catch (error) {}
     }

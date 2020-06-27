@@ -4,13 +4,13 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from '@vue/composition-api';
-import store from '@/store';
 import router from '@/router';
+import AuthStorage from '@/storages/Auth';
 
 export default defineComponent({
   setup (props: any, { root }) {
     onMounted(async () => {
-      await store.dispatch('auth/logout');
+      await AuthStorage.logout();
       router.replace({ name: 'main' });
     });
     return {};

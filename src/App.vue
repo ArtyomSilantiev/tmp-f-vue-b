@@ -9,6 +9,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted, watch } from '@vue/composition-api';
 import NavbarComponent from './components/Navbar.vue';
+import SettingStorage from '@/storages/Setting';
 
 export default defineComponent({
   components: {
@@ -17,7 +18,7 @@ export default defineComponent({
 
   setup (props: any, { root }) {
     onMounted(async () => {
-      await root.$store.dispatch('setting/fetchFrontSettings');
+      await SettingStorage.fetchFrontSettings();
     });
 
     watch(

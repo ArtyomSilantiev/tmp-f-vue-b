@@ -6,7 +6,7 @@ export enum UserRole {
   User = 'user',
   Partner = 'partner',
   Admin = 'admin'
-};
+}
 
 export interface IUserAuthInfo {
   isAuth: boolean;

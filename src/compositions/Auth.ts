@@ -1,23 +1,23 @@
-import router from '../router';
-import { computed, ref, onMounted } from '@vue/composition-api';
-import store from '../store';
-import UserModel, { UserRole } from '../models/User';
+import { computed } from '@vue/composition-api';
+import { UserRole } from '../models/User';
+import AuthStorage from '@/storages/Auth';
 
 export default function AuthComposition () {
   const token = computed(() => {
-    return store.getters['auth/token'];
+    return AuthStorage.getToken();
   });
 
   const user = computed(() => {
-    return store.getters['auth/user'];
+    return AuthStorage.getUser();
   });
 
   const isAuth = computed(() => {
-    return store.getters['auth/check'];
+    const user = AuthStorage.getUser();
+    return !!user;
   });
 
   const isAdmin = computed(() => {
-    const user = store.getters['auth/user'] as UserModel;
+    const user = AuthStorage.getUser();
     return user && user.role === UserRole.Admin;
   });
 

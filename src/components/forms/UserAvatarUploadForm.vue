@@ -27,6 +27,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from '@vue/composition-api';
 import UserModel from '../../models/User';
+import AuthStorage from '@/storages/Auth';
 
 export default defineComponent({
   setup (props, { root }) {
@@ -41,7 +42,7 @@ export default defineComponent({
         } catch (error) {
           console.error(error);
         }
-        root.$store.dispatch('auth/fetchUser');
+        await AuthStorage.fetchUser();
         formUploadUserAvatar.value.statusText = 'Аватар изменён'
       }
     }

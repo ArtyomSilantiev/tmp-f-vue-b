@@ -111,4 +111,4 @@ export default class Form <T> {
   public getValidationResult () {
     return this.validator.validationResult;
   }
-};
+}
