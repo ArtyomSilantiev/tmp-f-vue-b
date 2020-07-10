@@ -57,13 +57,13 @@ export class CustomChecks {
       return false;
     }
     const momentDate = moment(value, dateFormat);
-    let isValid = momentDate.isValid();
+    const isValid = momentDate.isValid();
     if (!isValid) {
       return false;
     }
     if (params) {
       if (params.offsetForMin) {
-        let minDate = moment()
+        const minDate = moment()
           .add(params.offsetForMin.num, params.offsetForMin.unit)
           .toDate();
         if (momentDate.toDate() < minDate) {
@@ -71,7 +71,7 @@ export class CustomChecks {
         }
       }
       if (params.offsetForMax) {
-        let maxDate = moment()
+        const maxDate = moment()
           .add(params.offsetForMax.num, params.offsetForMax.unit)
           .toDate();
         if (momentDate.toDate() > maxDate) {
@@ -105,7 +105,7 @@ export class ValidationResult {
 
   public getTotalErrors() {
     let errorsTotal = 0;
-    for (let field of Object.values(this.fields)) {
+    for (const field of Object.values(this.fields)) {
       errorsTotal += field.errors.length;
     }
     return errorsTotal;
@@ -148,19 +148,19 @@ export default class Validator {
     rules: IValidationRule[],
     fildsFilter?: Array<string>
   ) {
-    let body = this.body;
+    const body = this.body;
 
     if (!this.validationResult) {
       return;
     }
 
-    for (let rule of rules) {
-      let field = rule.field || '';
+    for (const rule of rules) {
+      const field = rule.field || '';
       let allowFlag = false;
       if (!fildsFilter) {
         allowFlag = true;
       } else {
-        for (let filt of fildsFilter) {
+        for (const filt of fildsFilter) {
           if (filt.endsWith('*') && field.startsWith(filt.replace('*', ''))) {
             allowFlag = true;
             break;
@@ -179,11 +179,11 @@ export default class Validator {
         continue;
       }
 
-      let value = getValue(body, field);
+      const value = getValue(body, field);
 
       if (rule.subRules) {
         if (Array.isArray(rule.subRules)) {
-          let subRules = rule.subRules;
+          const subRules = rule.subRules;
           await this.parseRules(validationResult, subRules, fildsFilter);
         } else {
           Validator.addErrorToField(
@@ -195,8 +195,8 @@ export default class Validator {
         }
       } else if (typeof rule.each === 'function') {
         if (Array.isArray(value)) {
-          for (let index in value) {
-            let subRules = rule.each(index);
+          for (const index in value) {
+            const subRules = rule.each(index);
             await this.parseRules(validationResult, subRules, fildsFilter);
           }
         } else {
@@ -208,7 +208,7 @@ export default class Validator {
           continue;
         }
       } else if (rule.checks && Array.isArray(rule.checks)) {
-        for (let check of rule.checks) {
+        for (const check of rule.checks) {
           const checkResult = await check.check(value, { body });
           if (!checkResult) {
             Validator.addErrorToField(
@@ -229,11 +229,11 @@ export default class Validator {
   }
 
   public async validation(fildsFilter?: Array<string>) {
-    let validationResult = new ValidationResult();
+    const validationResult = new ValidationResult();
 
     await this.parseRules(validationResult, this.rules, fildsFilter);
 
-    for (let validationField of Object.keys(validationResult.fields)) {
+    for (const validationField of Object.keys(validationResult.fields)) {
       this.validationResult.fields[validationField] =
         validationResult.fields[validationField];
     }
@@ -255,8 +255,8 @@ export default class Validator {
     }
 
     function parseRulesForFullRulesList(rules: IValidationRule[]) {
-      for (let rule of rules) {
-        let field = rule.field || '';
+      for (const rule of rules) {
+        const field = rule.field || '';
         allFieldsStr += field;
         fullRulesList.push(rule);
 
@@ -265,11 +265,11 @@ export default class Validator {
             parseRulesForFullRulesList(rule.subRules);
           }
         } else if (typeof rule.each === 'function') {
-          let value = getValue(body, field);
+          const value = getValue(body, field);
 
           if (Array.isArray(value)) {
-            for (let index in value) {
-              let subRules = rule.each(index);
+            for (const index in value) {
+              const subRules = rule.each(index);
               parseRulesForFullRulesList(subRules);
             }
           }
@@ -292,8 +292,8 @@ export default class Validator {
       this.generateFullRulesList();
     }
 
-    let fieldRules = [];
-    for (let rule of this.fullRulesList) {
+    const fieldRules = [];
+    for (const rule of this.fullRulesList) {
       if (rule.field === field) {
         fieldRules.push(rule);
       }
@@ -302,9 +302,9 @@ export default class Validator {
       return;
     }
 
-    let validationResult = new ValidationResult();
+    const validationResult = new ValidationResult();
     await this.parseRules(validationResult, fieldRules);
-    for (let validationField of Object.keys(validationResult.fields)) {
+    for (const validationField of Object.keys(validationResult.fields)) {
       this.validationResult.fields[validationField] =
         validationResult.fields[validationField];
     }
@@ -315,14 +315,14 @@ export default class Validator {
   }
 
   public clearFieldsFromValidationResult(fildsFilter?: Array<string>) {
-    let fieldKeysForClear = [];
+    const fieldKeysForClear = [];
 
-    for (let fieldKey of Object.keys(this.validationResult.fields)) {
+    for (const fieldKey of Object.keys(this.validationResult.fields)) {
       let removeFlag = false;
       if (!fildsFilter) {
         removeFlag = true;
       } else {
-        for (let filt of fildsFilter) {
+        for (const filt of fildsFilter) {
           if (
             filt.endsWith('*') &&
             fieldKey.startsWith(filt.replace('*', ''))
@@ -340,7 +340,7 @@ export default class Validator {
       }
     }
 
-    for (let fieldKey of fieldKeysForClear) {
+    for (const fieldKey of fieldKeysForClear) {
       delete this.validationResult.fields[fieldKey];
     }
   }
@@ -363,7 +363,7 @@ export default class Validator {
   }
 
   public static singleError(field: string, errorMsg: string) {
-    let validationResult = new ValidationResult();
+    const validationResult = new ValidationResult();
     Validator.initOrClearErrorField(validationResult, field);
     Validator.addErrorToField(validationResult, field, errorMsg || 'invalid');
     return validationResult;

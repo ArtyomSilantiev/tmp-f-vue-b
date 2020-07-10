@@ -11,7 +11,7 @@ export interface IFormSumbitConfig {
   }
 }
 
-export default abstract class Form <SumbitResType> {
+export default abstract class Form <SumbmitResType> {
   public statusText: string = '';
   public errorText: string = '';
 
@@ -20,7 +20,7 @@ export default abstract class Form <SumbitResType> {
 
   public abstract model: IModel;
   public abstract tmpModel: IModel | null;
-  protected abstract submitAction(config?: IFormSumbitConfig): SumbitResType;
+  protected abstract submitAction(config?: IFormSumbitConfig): SumbmitResType;
 
   public initValidator () {
     this.validator.setBody(this.model);
