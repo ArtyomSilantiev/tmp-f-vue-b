@@ -89,8 +89,6 @@ import axios from 'axios';
 import SettingsFrontComposition from '../../compositions/SettingsFront';
 import AuthStorage from '@/storages/Auth';
 
-console.log('Hello');
-
 export default defineComponent({
   setup (props: any, { root }) {
     const form = ref(new FormUserLogin());
