@@ -26,12 +26,12 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from '@vue/composition-api';
-import ImageModel from '../../models/Image';
+import ImageModel, { FormAdminFormUploadImage } from '../../models/Image';
 
 export default defineComponent({
   setup (props, { root, emit }) {
-    let imageFile = ref<Blob>(new Blob());
-    let form = ref(ImageModel.adminFormUploadImage());
+    const imageFile = ref<Blob>(new Blob());
+    const form = ref(new FormAdminFormUploadImage());
 
     async function uploadImage () {
       if (imageFile.value) {
@@ -41,7 +41,7 @@ export default defineComponent({
           form.value.statusText = 'Изображение загружено';
           emit('upload', data);
         } catch (error) {
-          throw error;
+          console.error(error);
         }
       }
     }

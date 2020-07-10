@@ -54,12 +54,12 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from '@vue/composition-api';
-import UserModel from '../../models/User';
+import UserModel, { FormUserSettingsUpdate } from '../../models/User';
 import AuthStorage from '@/storages/Auth';
 
 export default defineComponent({
   setup (props, { root }) {
-    const form = ref(UserModel.formUserSettingsUpdate());
+    const form = ref(new FormUserSettingsUpdate());
     const isDone = ref(false);
     const user = ref<UserModel>({});
 

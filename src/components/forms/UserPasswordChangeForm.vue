@@ -85,12 +85,12 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from '@vue/composition-api';
-import UserModel from '../../models/User';
+import UserModel, { FormUserPasswordChange} from '../../models/User';
 
 export default defineComponent({
   setup (props, { root }) {
-    let form = ref(UserModel.formPasswordChange());
-    let isDone = ref(false);
+    const form = ref(new FormUserPasswordChange());
+    const isDone = ref(false);
 
     async function changePassword () {
       try {

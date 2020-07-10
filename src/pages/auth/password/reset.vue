@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from '@vue/composition-api';
-import UserModel from '../../../models/User';
+import UserModel, { FormUserResetPassword } from '../../../models/User';
 import axios from 'axios';
 
 export default defineComponent({
@@ -71,7 +71,7 @@ export default defineComponent({
     const isLoadng = ref(false);
     const hideForm = ref(true);
     const email = ref('');
-    const form = ref(UserModel.formResetPassword());
+    const form = ref(new FormUserResetPassword());
 
     async function resetPassword () {
       try {

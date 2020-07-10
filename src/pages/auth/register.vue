@@ -113,7 +113,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from '@vue/composition-api';
-import UserModel from '../../models/User';
+import UserModel, { UserCreateForm } from '../../models/User';
 import axios from 'axios';
 import VueRecaptcha from 'vue-recaptcha';
 
@@ -123,7 +123,7 @@ export default defineComponent({
   },
 
   setup (props: any, { root }) {
-    const form = ref(UserModel.formCreate());
+    const form = ref(new UserCreateForm());
     const recaptchaSiteKey = ref(process.env.VUE_APP_GOGLE_RECAPCHA_SITE_KEY);
 
     function verifyCaptcha (token: string) {

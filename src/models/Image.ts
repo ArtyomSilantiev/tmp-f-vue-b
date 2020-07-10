@@ -27,14 +27,16 @@ export default class ImageModel {
   public static adminFetchImages (params: IImageFetchParams): Promise<AxiosResponse<IImageFetchResult>> {
     return axios.get('/api/admin/image/list', { params: params || null });
   }
+}
 
-  public static adminFormUploadImage () {
-    return new Form({
-      imageFile: new Blob()
-    }, async (model) => {
-      const form = new FormData();
-      form.append('imageFile', model.imageFile);
+export class FormAdminFormUploadImage extends Form <Promise<AxiosResponse<{}>>> {
+  public model = {
+    imageFile: new Blob()
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    const form = new FormData();
+      form.append('imageFile', this.model.imageFile);
       return axios.post('/api/admin/image/upload', form);
-    });
   }
 }

@@ -35,16 +35,15 @@ export default class SettingModel {
   public static async adminGetSettingByName (settingName: string): Promise<AxiosResponse<SettingModel>> {
     return axios.get('/api/admin/setting/by_name?name=' + settingName);
   }
+}
 
-  public static formAdminChangeSetting () {
-    return new Form({
-      name: '',
-      value: ''
-    }, async (model) => {
-      return axios.post('/api/admin/setting/change', {
-        name: model.name,
-        value: model.value
-      });
-    });
+export class FormAdminChangeSetting extends Form <Promise<AxiosResponse<{}>>> {
+  public model = {
+    name: '',
+    value: ''
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    return axios.post('/api/admin/setting/change', this.model);
   }
 }

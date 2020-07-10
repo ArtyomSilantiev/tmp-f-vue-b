@@ -84,14 +84,14 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from '@vue/composition-api';
-import UserModel from '../../models/User';
+import UserModel, { FormUserLogin } from '../../models/User';
 import axios from 'axios';
 import SettingsFrontComposition from '../../compositions/SettingsFront';
 import AuthStorage from '@/storages/Auth';
 
 export default defineComponent({
   setup (props: any, { root }) {
-    const form = ref(UserModel.formLogin());
+    const form = ref(new FormUserLogin());
 
     async function login () {
       try {

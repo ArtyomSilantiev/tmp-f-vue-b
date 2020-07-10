@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import Form from '../lib/form';
+import Form, { IFormSumbitConfig } from '../lib/form';
 
 export enum UserRole {
   Guest = 'guest',
@@ -59,75 +59,6 @@ export default class UserModel {
     return axios.get('/api/user/reset_password_info?code=' + resetCode);
   }
 
-  public static formLogin () {
-    return new Form({
-      email: '',
-      password: ''
-    }, async (model) => {
-      return axios.post('/api/user/login', model);
-    });
-  }
-
-  public static formCreate () {
-    return new Form({
-      email: '',
-      password: '',
-      passwordConfirmation: '',
-      city: '',
-      recaptchaToken: ''
-    }, async (model) => {
-      return axios.post('/api/user/create', model);
-    });
-  }
-
-  public static formRequestPasswordResetLink () {
-    return new Form({
-      email: ''
-    }, async (model) => {
-      return axios.post('/api/user/request_password_reset_link', model);
-    });
-  }
-
-  public static formResetPassword () {
-    return new Form({
-      resetPasswordCode: '',
-      password: '',
-      passwordConfirmation: ''
-    }, async (model) => {
-      return axios.post('/api/user/reset_password', model);
-    });
-  }
-
-  public static formUploadUserAvatar () {
-    return new Form({
-      avatarFile: new Blob()
-    }, async (model) => {
-      const form = new FormData();
-      form.append('avatarFile', model.avatarFile);
-      return axios.post('/api/user/upload_avatar', form);
-    });
-  }
-
-  public static formPasswordChange () {
-    return new Form({
-      oldPassword: '',
-      newPassword: '',
-      newPasswordConfirmation: ''
-    }, async (model) => {
-      return axios.post('/api/user/change_password', model);
-    });
-  }
-
-  public static formUserSettingsUpdate () {
-    return new Form({
-      firstName: '',
-      lastName: '',
-      city: ''
-    }, async (model) => {
-      return axios.post('/api/user/settings_update', model);
-    });
-  }
-
   public static adminFetchUsers (params?: IUserFetchParams): Promise<AxiosResponse<IUserFetchResult>> {
     return axios.get('/api/admin/user/list', { params: params || null });
   }
@@ -135,17 +66,104 @@ export default class UserModel {
   public static adminGetUserById (userId: string): Promise<AxiosResponse<UserModel>> {
     return axios.get('/api/admin/user/byid/' + userId);
   }
+}
 
-  public static adminFormChangeUser () {
-    return new Form({
-      id: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      role: '',
-      city: ''
-    }, async (model) => {
-      return axios.post('/api/admin/user/change', model);
-    });
+export class FormUserLogin extends Form <Promise<AxiosResponse<{
+  token: string;
+}>>> {
+  public model = {
+    email: '',
+    password: ''
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    return axios.post('/api/user/login', this.model);
+  }
+}
+
+export class FormUserCreate extends Form <Promise<AxiosResponse<{}>>> {
+  public model = {
+    email: '',
+    password: '',
+    passwordConfirmation: '',
+    city: '',
+    recaptchaToken: ''
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    return axios.post('/api/user/post', this.model);
+  }
+}
+
+export class FormUserRequestPasswordResetLink extends Form <Promise<AxiosResponse<{}>>> {
+  public model = {
+    email: ''
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    return axios.post('/api/user/request_password_reset_link', this.model);
+  }
+}
+
+export class FormUserResetPassword extends Form <Promise<AxiosResponse<{}>>> {
+  public model = {
+    resetPasswordCode: '',
+    password: '',
+    passwordConfirmation: ''
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    return axios.post('/api/user/reset_password', this.model);
+  }
+}
+
+export class FormUserUploadAvatar extends Form <Promise<AxiosResponse<{}>>> {
+  public model = {
+    avatarFile: new Blob()
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    const form = new FormData();
+    form.append('avatarFile', this.model.avatarFile);
+    return axios.post('/api/user/upload_avatar', form);
+  }
+}
+
+export class FormUserPasswordChange extends Form <Promise<AxiosResponse<{}>>> {
+  public model = {
+    oldPassword: '',
+    newPassword: '',
+    newPasswordConfirmation: ''
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    return axios.post('/api/user/change_password', this.model);
+  }
+}
+
+export class FormUserSettingsUpdate extends Form <Promise<AxiosResponse<{}>>> {
+  public model = {
+    firstName: '',
+    lastName: '',
+    city: ''
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    return axios.post('/api/user/settings_update', this.model);
+  }
+}
+
+export class FormAdminUserChange extends Form <Promise<AxiosResponse<{}>>> {
+  public model = {
+    id: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    role: '',
+    city: ''
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    return axios.post('/api/admin/user/change', this.model);
   }
 }

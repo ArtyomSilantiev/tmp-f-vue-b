@@ -77,17 +77,14 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from '@vue/composition-api';
-import SettingModel from '../../../models/Setting';
+import SettingModel, { FormAdminChangeSetting } from '../../../models/Setting';
 import Form from '../../../lib/form';
 
 export default defineComponent({
   setup (props: any, { root }) {
     const settingName = ref(root.$route.params['name']);
     const settingData = ref<SettingModel>(new SettingModel());
-    const form = ref<Form<{
-      name: string;
-      value: string;
-    }>>(SettingModel.formAdminChangeSetting());
+    const form = ref(new FormAdminChangeSetting());
 
     onMounted(async function () {
       const { data } = await SettingModel.adminGetSettingByName(settingName.value);

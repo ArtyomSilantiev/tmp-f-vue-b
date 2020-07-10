@@ -44,12 +44,12 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from '@vue/composition-api';
-import UserModel from '../../../models/User';
+import UserModel, { FormUserRequestPasswordResetLink } from '../../../models/User';
 import axios from 'axios';
 
 export default defineComponent({
   setup (props: any, { root }) {
-    const form = ref(UserModel.formRequestPasswordResetLink());
+    const form = ref(new FormUserRequestPasswordResetLink());
     const hideForm = ref(false);
 
     async function requestPasswordResetLink () {

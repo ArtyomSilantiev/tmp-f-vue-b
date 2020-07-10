@@ -1,28 +1,28 @@
 import { AxiosResponse, AxiosError } from 'axios';
 import Validator, { IValidationRule } from './validator';
 
-interface IFormSubmit <T> {
-  (model: T, params: IFormSumbitConfig): Promise<AxiosResponse>;
+interface IModel {
+  [key: string]: any;
 }
 
-interface IFormSumbitConfig {
+export interface IFormSumbitConfig {
   params?: {
     [key: string]: any;
   }
 }
 
-export default class Form <T> {
-  public model: T;
+export default abstract class Form <SumbitResType> {
   public statusText: string = '';
   public errorText: string = '';
 
   protected validator = new Validator();
   protected busy: boolean = false;
-  protected submitAction: IFormSubmit<T>;
 
-  constructor (model: T, submitAction: IFormSubmit<T>) {
-    this.model = model;
-    this.submitAction = submitAction;
+  public abstract model: IModel;
+  public abstract tmpModel: IModel | null;
+  protected abstract submitAction(config?: IFormSumbitConfig): SumbitResType;
+
+  public initValidator () {
     this.validator.setBody(this.model);
   }
 
@@ -71,7 +71,7 @@ export default class Form <T> {
       this.statusText = '';
       this.errorText = '';
       this.busy = true;
-      const response = await this.submitAction(this.model, config);
+      const response = await this.submitAction();
       this.busy = false;
       return response;
     } catch (error) {

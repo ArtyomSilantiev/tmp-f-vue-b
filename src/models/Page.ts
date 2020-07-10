@@ -15,16 +15,15 @@ export default class PageModel {
   public static async getPage (name: string): Promise<AxiosResponse<IPageGetResult>> {
     return axios.get('/api/page/by_name/' + name);
   }
+}
 
-  public static formAdminSetPage (name: string) {
-    return new Form({
-      name,
-      data: null
-    }, async (model) => {
-      return axios.post('/api/admin/page/change', {
-        name: model.name,
-        data: model.data
-      });
-    });
+export class FormAdminSetPage extends Form <Promise<AxiosResponse<{}>>> {
+  public model = {
+    name,
+    data: null
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    return axios.post('/api/admin/page/change', this.model);
   }
 }

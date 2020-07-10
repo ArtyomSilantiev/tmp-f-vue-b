@@ -50,21 +50,22 @@ export default class NewsModel {
     return axios.get('/api/news/by_id/' + newsId);
   }
 
-  public static formAdminPutNews () {
-    return new Form({
-      id: null,
-      status: '',
-      header: '',
-      annotation: '',
-      content: '',
-      publishAt: new Date()
-
-    }, async (model) => {
-      return axios.put('/api/admin/news', model);
-    });
-  }
-
   public static adminDeleteNews (newsId: string) {
     return axios.delete('/api/admin/news/' + newsId);
+  }
+}
+
+export class FormAdminPutNews extends Form <Promise<AxiosResponse<{}>>> {
+  public model = {
+    id: null,
+    status: '',
+    header: '',
+    annotation: '',
+    content: '',
+    publishAt: new Date()
+  };
+  public tmpModel = null;
+  protected submitAction () {
+    return axios.post('/api/admin/news', this.model);
   }
 }

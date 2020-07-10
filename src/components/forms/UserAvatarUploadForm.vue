@@ -26,13 +26,13 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from '@vue/composition-api';
-import UserModel from '../../models/User';
+import UserModel, { FormUserUploadAvatar } from '../../models/User';
 import AuthStorage from '@/storages/Auth';
 
 export default defineComponent({
   setup (props, { root }) {
     const avatarFile = ref<Blob>(new Blob());
-    const formUploadUserAvatar = ref(UserModel.formUploadUserAvatar());
+    const formUploadUserAvatar = ref(new FormUserUploadAvatar());
 
     async function updateAvatar () {
       if (avatarFile.value) {
