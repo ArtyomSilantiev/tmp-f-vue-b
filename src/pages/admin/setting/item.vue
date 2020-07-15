@@ -78,7 +78,6 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from '@vue/composition-api';
 import SettingModel, { FormAdminChangeSetting } from '../../../models/Setting';
-import Form from '../../../lib/form';
 
 export default defineComponent({
   setup (props: any, { root }) {
